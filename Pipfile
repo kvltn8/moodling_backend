@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+djoser = "*"
+djangorestframework-simplejwt = "*"
+python-dotenv = "*"
+psycopg = {extras = ["binary"], version = "*"}
+dj-database-url = "*"
+dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

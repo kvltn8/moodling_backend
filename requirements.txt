@@ -1,0 +1,11 @@
+dj-database-url==3.1.2
+Django==5.2.15
+djangorestframework==3.17.1
+djangorestframework_simplejwt==5.5.1
+djoser==2.3.3
+pytest==9.0.2
+python-dotenv==1.2.2
+psycopg2-binary==2.9.11
+requests==2.33.1
+supabase==2.31.0
+dotenv==1.2.3

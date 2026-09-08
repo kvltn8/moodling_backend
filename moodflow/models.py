@@ -11,6 +11,16 @@ class User(AbstractUser):
 
 
 class MoodEntry(models.Model):
+    ANIMATIONS_CHOICES = [
+        ("happy", "Happy"),
+        ("calm", "Calm"),
+        ("focused", "Focused"),
+        ("tired", "Tired"),
+        ("sad", "Sad"),
+        ("anxious", "Anxious"),
+        ("excited", "Excited"),
+    ]        
+    animations = models.CharField(max_length=20, choices=ANIMATIONS_CHOICES, default="happy")
     description = models.TextField(blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="moods")
     mood = models.CharField(max_length=50)

@@ -37,3 +37,67 @@ class TaskList(models.Model):
     created_at=models.DateField(auto_now_add=True)
     def __str__(self):
         return f"{self.user.username},{self.Task}, {self.about}, {self.created_at}"
+
+
+class QuranSurah(models.Model):
+    quran_id = models.PositiveSmallIntegerField(unique=True)
+    name_arabic = models.CharField(max_length=100)
+    name_english = models.CharField(max_length=100)
+    name_transliteration = models.CharField(max_length=100)
+    verses_count = models.PositiveSmallIntegerField()
+    revelation_place = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.quran_id}. {self.name_english}"
+
+class Reciter(models.Model):
+    reciter_id = models.PositiveIntegerField(unique=True)
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
+
+class QuranSurahAudio(models.Model):
+    surah = models.ForeignKey(
+        QuranSurah,
+        on_delete=models.CASCADE,
+        related_name="audio_files",
+    )
+    reciter_id = models.PositiveIntegerField()
+    reciter_name = models.CharField(max_length=255)
+    audio_url = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["surah", "reciter_id"],
+                name="unique_surah_reciter_audio",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.surah} - {self.reciter_name}"
+
+
+class MoodSurahRecommendation(models.Model):
+    mood = models.CharField(
+        max_length=50,
+        choices=MoodsEntry.ANIMATION_CHOICES,   
+    )
+    surah = models.ForeignKey(
+        QuranSurah,
+        on_delete=models.CASCADE,
+        related_name='mood_recommendations'
+    )
+    reason = models.TextField()
+
+    def __str__(self):
+        return f"{self.mood} → {self.surah.name_english}"  
